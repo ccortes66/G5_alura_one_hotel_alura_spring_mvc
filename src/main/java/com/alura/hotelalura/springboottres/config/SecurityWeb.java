@@ -32,27 +32,15 @@ public class SecurityWeb
              .csrf(AbstractHttpConfigurer::disable)
              .httpBasic(AbstractHttpConfigurer::disable)
              .authorizeHttpRequests(request -> request
+                                                    .requestMatchers("/public/**").permitAll()
                                                     .requestMatchers("/img/**").permitAll()
-
-                                                    
-                                                    .requestMatchers(HttpMethod.POST, "/registrar"
-                                                                                                 ,"/empleado/**"
-                                                                                                 ,"/ingreso"
-                                                                                                 ).permitAll() 
-
-                                                    .requestMatchers(HttpMethod.GET,"/empleado/**",
-                                                                                                "/registrar",
-                                                                                                "/error","/cerrar"
-                                                                                                ).permitAll()
-
-                                                    
                                                     .requestMatchers(HttpMethod.GET,"/cliente/**").hasRole("CLIENTE")
                                                     .requestMatchers(HttpMethod.GET,"/operacion/**").hasRole("EMPLEADO")
                                                     .anyRequest()
                                                     .authenticated())  
              .addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class)
              .formLogin(login -> login
-                                  .loginPage("/")
+                                  .loginPage("/public")
                                   .permitAll());
         return security.build();
     }

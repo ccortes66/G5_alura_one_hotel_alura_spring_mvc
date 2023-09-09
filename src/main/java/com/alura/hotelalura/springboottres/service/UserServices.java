@@ -16,9 +16,14 @@ import org.springframework.stereotype.Service;
 import com.alura.hotelalura.springboottres.controller.requests.RegisterRequest;
 import com.alura.hotelalura.springboottres.controller.responses.LoginResponses;
 import com.alura.hotelalura.springboottres.persitence.dto.user.UserModel;
+import com.alura.hotelalura.springboottres.persitence.entity.ClienteEntity;
+import com.alura.hotelalura.springboottres.persitence.entity.EmpleadoEntity;
+import com.alura.hotelalura.springboottres.persitence.entity.RoleUser;
 import com.alura.hotelalura.springboottres.persitence.entity.UserEntity;
 import com.alura.hotelalura.springboottres.persitence.repository.UserRepository;
+import com.alura.hotelalura.springboottres.service.validate.Validations;
 
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -30,6 +35,7 @@ public class UserServices implements UserDetailsService
     private final List<Validations> validations;
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private final EntityManager manager;
     @Setter
     private LoginResponses loginResponses;
     
@@ -39,7 +45,7 @@ public class UserServices implements UserDetailsService
     { 
       validations.forEach((data) -> data.validate(request));
 
-      Optional<UserEntity> users = repository.findByUsername(request.username());
+      Optional<UserEntity> users = repository.findById(request.username());
       users.ifPresentOrElse(
                  (data) -> {
                      throw new InternalAuthenticationServiceException(String.format("%s,%s,%s,%s,%s"
@@ -52,8 +58,11 @@ public class UserServices implements UserDetailsService
                  () -> {
                       UserEntity uEntity = new UserEntity(new UserModel(request));
                       uEntity.setPassword(passwordEncoder.encode(request.password()));
-                      System.out.println(uEntity);
                       repository.save(uEntity);
+                      if(request.roleUser().equals(RoleUser.CLIENTE))
+                        {manager.persist(new ClienteEntity(uEntity.getDocumento()));}
+                      else
+                        {manager.persist(new EmpleadoEntity(uEntity.getDocumento(),request.CargoEmpleado()));}                      
                  }
       );
     }
@@ -63,13 +72,13 @@ public class UserServices implements UserDetailsService
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
     {   
                                                    
-        UserEntity users = repository.findByUsername(username).orElseThrow(() -> new InternalAuthenticationServiceException(String.format("%s,%s,%s,%s,%s"
+        UserEntity users = repository.findById(username).orElseThrow(() -> new InternalAuthenticationServiceException(String.format("%s,%s,%s,%s,%s"
                                                                                                                                                     ,loginResponses.linkAction()
                                                                                                                                                     ,loginResponses.img()
                                                                                                                                                     ,"Usuario o Contraseña invalida"
                                                                                                                                                     ,loginResponses.linkRegistro()
                                                                                                                                                     ,loginResponses.currentUri())));
-                                                                                                                                                    
+                                                                                                                                         
         User userss = (User) User.builder()
                              .username(users.getUsername())
                              .password(users.getPassword())

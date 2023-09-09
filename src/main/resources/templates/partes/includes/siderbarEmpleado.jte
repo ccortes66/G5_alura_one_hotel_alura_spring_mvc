@@ -7,7 +7,7 @@
                 </a>
                 <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center justify-content-between w-100 px-3 align-items-center">
                     <li class="nav-item">
-                        <a href="/administar/reservacion" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
+                        <a href="/operacion/generar/Habitacion" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
                             <i class="bi-card-list fs-1"></i>
                         </a>
                     </li>
@@ -17,12 +17,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/consultar/reservacion/empleado" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
+                        <a href="/operacion/consultar/reservacion" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
                             <i class="bi-cash-stack fs-1"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="/administar/pagos" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
+                        <a href="/operacion/generar/pagos" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
                             <i class="bi bi-wallet fs-1"></i>
                         </a>
                     </li>
@@ -33,8 +33,8 @@
                         <i class="bi-person-circle h2"></i>
                     </a>
                     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
-                        <li><a href="/empleado/cerrar" class="dropdown-item" >Salir</a></li>
-                        <li><a href="/perfil" class="dropdown-item" >Perfil</a></li>
+                        <li><a href="/public/empleado/cerrar" class="dropdown-item" >Salir</a></li>
+                        <li><a href="/operacion/perfil" class="dropdown-item" >Perfil</a></li>
                     </ul>
                 </div>
             </div>

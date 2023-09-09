@@ -1,11 +1,8 @@
 package com.alura.hotelalura.springboottres.config;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Optional;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,7 +38,7 @@ public class CustomFilterSession extends OncePerRequestFilter
                                     FilterChain filterChain)
                                     throws ServletException, IOException 
     {    
-        
+         
          Optional<HttpSession> session = Optional.ofNullable(request.getSession());
          session.ifPresent((mySession)->{
             Optional<String> username = Optional.ofNullable((String) mySession.getAttribute("users"));
@@ -63,22 +60,8 @@ public class CustomFilterSession extends OncePerRequestFilter
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException 
     {    
 
-        List<String> whileList = Arrays.asList(
-            "/empleado","/empleado/registrar",
-            "/registrar","/","/empleado/ingreso","/ingreso",
-            "/error","/cerrar","/empleado/cerrar"
-        );
-        Iterator<String> lisIterator = whileList.iterator();
-        while(lisIterator.hasNext())
-        {   
-            if(request.getRequestURI().equals(lisIterator.next()) ||
-               request.getRequestURI().startsWith("/img/"))
-            {   
-                return true;
-            }
-        }
-        return false;
-        
+         return request.getRequestURI().startsWith("/public") || 
+                request.getRequestURI().startsWith("/img"); 
     }
 
     

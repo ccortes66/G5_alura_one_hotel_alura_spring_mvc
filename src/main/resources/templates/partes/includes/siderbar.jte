@@ -28,7 +28,7 @@
                         <i class="bi-person-circle h2"></i>
                     </a>
                     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
-                        <li><a href="/cerrar" class="dropdown-item" >Salir</a></li>
+                        <li><a href="/public/cerrar" class="dropdown-item" >Salir</a></li>
                         <li><a href="/perfil" class="dropdown-item" >Perfil</a></li>
                     </ul>
                 </div>

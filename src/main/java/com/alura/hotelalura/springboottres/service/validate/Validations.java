@@ -1,4 +1,4 @@
-package com.alura.hotelalura.springboottres.service;
+package com.alura.hotelalura.springboottres.service.validate;
 
 
 import java.time.LocalDate;

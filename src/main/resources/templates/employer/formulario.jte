@@ -19,7 +19,7 @@
 
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Registro</p>
 
-                                <form class="mx-1 mx-md-4" method="post" action="/empleado/registrar">
+                                <form class="mx-1 mx-md-4" method="post" action="/public/empleado/registrar">
                                     @if(response != null)
                                         <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
                                             <strong>Error ${response.erroNumber()} </strong> ${response.message()}

@@ -10,13 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alura.hotelalura.springboottres.controller.requests.RegisterRequest;
 
 import com.alura.hotelalura.springboottres.controller.responses.LoginResponses;
 import com.alura.hotelalura.springboottres.persitence.entity.RoleUser;
-import com.alura.hotelalura.springboottres.service.HCatchaValidation;
 import com.alura.hotelalura.springboottres.service.UserServices;
+import com.alura.hotelalura.springboottres.service.validate.HCatchaValidation;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -24,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 
 
 @Controller
+@RequestMapping("/public")
 @RequiredArgsConstructor
 public class UserController 
 {   
@@ -31,19 +33,19 @@ public class UserController
     private final UserServices userServices;
     private final AuthenticationManager manager;
     private final HCatchaValidation catchaValidation;
-    private LoginResponses clienteResponses = new LoginResponses("/ingreso",
+    private LoginResponses clienteResponses = new LoginResponses("/public/ingreso",
                                                               "/img/hotelcliente.jpg",
                                                               null,
-                                                              "/registrar",
+                                                              "/public/registrar",
                                                               "login");
 
-    private LoginResponses empleadoResponses = new LoginResponses("/empleado/ingreso",
+    private LoginResponses empleadoResponses = new LoginResponses("/public/empleado/ingreso",
                                                                          "/img/hotelempleado.jpg",
                                                                     null,
-                                                                "/empleado/registrar",
+                                                                "/public/empleado/registrar",
                                                                    "employer/login");
                                     
-    @GetMapping("/")
+    @GetMapping
     public String loginCliente(Model model, HttpServletRequest request)
     {  
         model.addAttribute("loginResponse",clienteResponses);
@@ -85,7 +87,8 @@ public class UserController
                                                               request.getParameter("password"),
                                                               request.getParameter("password2"),
                                                               "formulario",
-                                                              RoleUser.CLIENTE);  
+                                                              RoleUser.CLIENTE,
+                                                              null);  
         
         if(!catchaValidation.validate(request.getParameter("h-captcha-response")))
           {throw new IllegalArgumentException(String.format("%s,%s"
@@ -95,7 +98,7 @@ public class UserController
         userServices.setLoginResponses(clienteResponses);                                                           
         userServices.registarUsuario(registerRequest);
         model.addAttribute("loginResponse", clienteResponses);
-        return "redirect:/";
+        return "redirect:/public";
     }
 
 
@@ -111,7 +114,8 @@ public class UserController
                                                               request.getParameter("password"),
                                                               request.getParameter("password2"),
                                                               "employer/formulario",
-                                                              RoleUser.EMPLEADO);
+                                                              RoleUser.EMPLEADO,
+                                                              request.getParameter("cargo"));
                                                             
         
         if(!catchaValidation.validate(request.getParameter("h-captcha-response")))
@@ -122,7 +126,7 @@ public class UserController
         userServices.setLoginResponses(empleadoResponses);   
         userServices.registarUsuario(registerRequest);
         model.addAttribute("loginResponse",empleadoResponses);
-        return "redirect:/empleado";
+        return "redirect:/public/empleado";
     }
 
     @PostMapping("/ingreso")
@@ -175,14 +179,14 @@ public class UserController
     public String cerrarSession(HttpSession session)
     {  
         session.removeAttribute("users");
-        return "redirect:/";
+        return "redirect:/public";
     }
 
     @GetMapping("/empleado/cerrar")
     public String cerrarSessionEmpleado(HttpSession session)
     {  
         session.removeAttribute("users");
-        return "redirect:/empleado";
+        return "redirect:/public/empleado";
     }
 
     

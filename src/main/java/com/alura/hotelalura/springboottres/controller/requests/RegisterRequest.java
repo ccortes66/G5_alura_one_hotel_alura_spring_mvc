@@ -13,7 +13,8 @@ public record RegisterRequest(
     String password,
     String verifyPassword,
     String currentUri,
-    RoleUser roleUser
+    RoleUser roleUser,
+    String CargoEmpleado
 
 ) 
 {}

@@ -1,27 +1,23 @@
-@import com.alura.hotelalura.model.Usuario
-@import com.alura.hotelalura.ssr.dto.ConsultaInfoReservacion
-@import com.alura.hotelalura.ssr.CookieController
+
 @import java.text.DecimalFormat
 
-@param Usuario user
-@param ConsultaInfoReservacion reservacion
 
 
 <!doctype html>
 <html lang="en">
-@template.partes.head()
+@template.partes.includes.head()
 <body>
 
     
     <section class="container-fluid">
          <div class="row">
-             @template.partes.siderbarEmpleado()
+             @template.partes.includes.siderbarEmpleado()
 
              <div class="col-sm p-3 min-vh-100">
                  <!-- content -->
-                 @template.partes.titulos(reservacion.usuario(),
-                                          "Consultar Precio",
-                                           "bi-cash-stack fs-1")
+                 @template.partes.includes.titulos("user",
+                                                   "Consultar Precio",
+                                                   "bi-cash-stack fs-1")
 
                  <form action="/consultar/reservacion/empleado" method="post">
                   <div class="row g-3">
@@ -39,11 +35,13 @@
                      <div class="col-auto">
                          <label for="categoria" class="form-label">Categoría</label>
                          <select class="form-select" id="categoria" name="categoria" aria-label="Default select example" required>
+                             <!--
                              @if(reservacion.habitacionTipo() != null)
                                  @for(var categoria: reservacion.habitacionTipo())
                                      <option class="text-capitalize" value="${categoria.getNombre()}">${categoria.getNombre()}</option>
                                  @endfor
                              @endif
+                             -->
                          </select>
                      </div>
 
@@ -54,6 +52,7 @@
 
                  </div>
                  </form>
+                 <!--
                  @if(reservacion.response() != null)
 
                      <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
@@ -85,7 +84,7 @@
                          </div>
                      </div>
                  @endif
-
+                -->
              </div>
 
          </div>

@@ -21,9 +21,9 @@ public class UserEntity
 {   
     @Id
     @NonNull
-    private String documento;
-    @NonNull
     private String username;
+    @NonNull
+    private String documento;
     private String password;
     private Boolean locked = false;
     private Boolean isDisabled = false;
@@ -36,8 +36,8 @@ public class UserEntity
 
     public UserEntity(UserModel dto)
     {
-       this(dto.dni(), 
-            dto.username(),
+       this(dto.username(),
+            dto.dni(), 
             dto.roleUser(),
             new InfoEntityEmb(dto.nombre(),dto.apellido(),dto.fechaNacimiento())
         );

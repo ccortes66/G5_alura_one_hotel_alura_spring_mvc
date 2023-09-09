@@ -11,7 +11,7 @@ CREATE TABLE user_entity
     apellido VARCHAR(100) NOT NULL,
     fecha_nacimiento DATE NOT NULL,
     telefono VARCHAR(20),
-    PRIMARY KEY(documento),
-    UNIQUE(username)
+    PRIMARY KEY(username),
+    UNIQUE(documento)
 
 );
