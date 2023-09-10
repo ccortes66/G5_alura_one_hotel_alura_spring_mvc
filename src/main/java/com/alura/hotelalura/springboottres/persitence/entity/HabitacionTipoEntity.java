@@ -1,5 +1,6 @@
 package com.alura.hotelalura.springboottres.persitence.entity;
 
+
 import java.math.BigDecimal;
 
 import com.alura.hotelalura.springboottres.persitence.dto.habitacion_tipo.HabitacionTipoModel;
@@ -16,7 +17,7 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class HabitacionTipoEntity extends ValueSuperEntity
+public class HabitacionTipoEntity extends ValueSuperEntity 
 {
     @Id
     @NonNull

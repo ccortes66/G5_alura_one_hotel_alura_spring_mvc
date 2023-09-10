@@ -1,5 +1,7 @@
 package com.alura.hotelalura.springboottres.persitence.entity;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;

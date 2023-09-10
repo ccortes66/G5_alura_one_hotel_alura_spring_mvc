@@ -1,4 +1,4 @@
-@import com.alura.hotelalura.springboottres.persitence.entity.EmpleadoEntity;
+@import com.alura.hotelalura.springboottres.persitence.entity.EmpleadoEntity
 @import java.time.LocalDate
 @import java.time.Period
 

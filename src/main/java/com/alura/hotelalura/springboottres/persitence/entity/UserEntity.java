@@ -1,5 +1,7 @@
 package com.alura.hotelalura.springboottres.persitence.entity;
 
+import java.io.Serializable;
+
 import com.alura.hotelalura.springboottres.persitence.dto.user.UserModel;
 
 import jakarta.persistence.Embedded;
@@ -17,7 +19,7 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class UserEntity 
+public class UserEntity implements Serializable
 {   
     @Id
     @NonNull

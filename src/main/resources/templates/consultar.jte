@@ -1,28 +1,31 @@
-@import com.alura.hotelalura.model.Usuario
-@import com.alura.hotelalura.ssr.dto.ConsultaInfoReservacion
+@import com.alura.hotelalura.springboottres.controller.responses.*
+@import java.text.DecimalFormat
 
 
-@param Usuario user
-@param ConsultaInfoReservacion reservacion
+@param ReservaResponses reservaResponses
+@param ErrorResponses response 
+
 
 
 <!doctype html>
 <html lang="en">
-@template.partes.head()
+@template.partes.includes.head()
 <body>
 
     
     <section class="container-fluid">
          <div class="row">
-             @template.partes.siderbar()
+             @template.partes.includes.siderbar()
 
              <div class="col-sm p-3 min-vh-100">
                  <!-- content -->
-                 @template.partes.titulos(reservacion.usuario(),
-                                          "Consultar Precio",
-                                           "bi-cash-stack fs-1")
+              @template.partes.includes.titulos(reservaResponses.username(),
+                                                       "Consultar Precio",
+                                                       "bi-cash-stack fs-1")
+                  
 
-                 <form action="/consultar/reservacion" method="post">
+                                                
+                 <form action="/cliente/consultar/reservacion" method="post">
                   <div class="row g-3">
 
                      <div class="col-auto">
@@ -38,11 +41,10 @@
                      <div class="col-auto">
                          <label for="categoria" class="form-label">Categoría</label>
                          <select class="form-select" id="categoria" name="categoria" aria-label="Default select example" required>
-                             @if(reservacion.habitacionTipo() != null)
-                                 @for(var categoria: reservacion.habitacionTipo())
-                                     <option class="text-capitalize" value="${categoria.getNombre()}">${categoria.getNombre()}</option>
-                                 @endfor
-                             @endif
+                             @for(var categoria: reservaResponses.listarCaregoria())
+                                     <option class="text-capitalize" value="${categoria}">${categoria}</option>
+                             @endfor
+                          
                          </select>
                      </div>
 
@@ -53,14 +55,15 @@
 
                  </div>
                  </form>
-                 @if(reservacion.response() != null)
+                 
+                 @if(response != null)
 
                      <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
-                             <strong>Error ${reservacion.response().status()}</strong> ${reservacion.response().Detail()}
+                             <strong>Error ${response.erroNumber()}</strong> ${response.message()}
                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                      </div>
 
-                 @elseif(reservacion.reserva() != null)
+                 @elseif(reservaResponses.consultaResponses() != null)
 
                      <div class="card mb-3 mt-4" style="max-width: 540px;">
                          <div class="row g-0">
@@ -73,25 +76,24 @@
                                      <p class="card-text">Cálculo del costo según la duración de la estadía .</p>
 
                                     <ul class="list-unstyled">
-                                        <li id="myInicio" class="card-text">Check In:${String.valueOf(reservacion.reserva().checkIn())}</li>
-                                        <li id="myFin" class="card-text">Check Out:${String.valueOf(reservacion.reserva().checkOut())} </li>
-                                        <li id="myCategoria" class="card-text">Categoria: ${reservacion.reserva().tipo()}</li>
-                                        <li class=" card-text">Precio(USD) $${reservacion.reserva().metodoPago()}</li>
+                                        <li id="myInicio" class="card-text">Check In:${String.valueOf(reservaResponses.consultaResponses().checkIn())}</li>
+                                        <li id="myFin" class="card-text">Check Out:${String.valueOf(reservaResponses.consultaResponses().checkOut())} </li>
+                                        <li id="myCategoria" class="card-text">Categoria: ${reservaResponses.consultaResponses().categoria()}</li>
+                                        <li class=" card-text">Precio(USD) $${new DecimalFormat("#,###.00").format(reservaResponses.consultaResponses().precio())}</li>
                                      </ul>
 
-                                     <a href="/generar/reservacion" class="card-link">reservar ahora</a>
                                  </div>
                              </div>
                          </div>
                      </div>
                  @endif
-
+             
              </div>
 
          </div>
    </section>
 
 
-@template.partes.footer()
+@template.partes.includes.footer()
 </body>
 </html>

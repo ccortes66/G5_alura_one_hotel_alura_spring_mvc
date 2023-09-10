@@ -1,5 +1,6 @@
 package com.alura.hotelalura.springboottres.persitence.dto.user;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import com.alura.hotelalura.springboottres.controller.requests.RegisterRequest;

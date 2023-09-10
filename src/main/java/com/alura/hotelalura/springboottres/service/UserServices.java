@@ -3,9 +3,11 @@ package com.alura.hotelalura.springboottres.service;
 import java.util.List;
 import java.util.Optional;
 
-
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
-
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,6 +38,7 @@ public class UserServices implements UserDetailsService
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final EntityManager manager;
+    private final CacheManager cacheManager;
     @Setter
     private LoginResponses loginResponses;
     
@@ -60,14 +63,14 @@ public class UserServices implements UserDetailsService
                       uEntity.setPassword(passwordEncoder.encode(request.password()));
                       repository.save(uEntity);
                       if(request.roleUser().equals(RoleUser.CLIENTE))
-                        {manager.persist(new ClienteEntity(uEntity.getDocumento()));}
+                        {manager.persist(new ClienteEntity(uEntity.getUsername()));}
                       else
-                        {manager.persist(new EmpleadoEntity(uEntity.getDocumento(),request.CargoEmpleado()));}                      
+                        {manager.persist(new EmpleadoEntity(uEntity.getUsername(),request.CargoEmpleado()));}                      
                  }
       );
     }
 
-
+    @Cacheable(cacheNames = "cachingUserName", key = "#username")
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
     {   
@@ -78,15 +81,29 @@ public class UserServices implements UserDetailsService
                                                                                                                                                     ,"Usuario o Contraseña invalida"
                                                                                                                                                     ,loginResponses.linkRegistro()
                                                                                                                                                     ,loginResponses.currentUri())));
+        if(users.getLocked())
+          {throw new LockedException(String.format("%s,%s,%s,%s,%s"
+                                                                  ,loginResponses.linkAction()
+                                                                  ,loginResponses.img()
+                                                                  ,"Usuario o Contraseña invalida"
+                                                                  ,loginResponses.linkRegistro()
+                                                                  ,loginResponses.currentUri()));}
                                                                                                                                          
         User userss = (User) User.builder()
                              .username(users.getUsername())
                              .password(users.getPassword())
                              .roles(users.getRoles().toString())
-                             .accountLocked(false)
-                             .disabled(false)
+                             .accountLocked(users.getLocked())
+                             .disabled(users.getIsDisabled())
                              .accountExpired(false)
                              .build();                                                                                                                                     
         return userss;
     }
+
+    public void deleteAllCache(String cacheName, String cacheKey) 
+    {
+       cacheManager.getCache(cacheName).evict(cacheKey);
+    }
+
+    
 }

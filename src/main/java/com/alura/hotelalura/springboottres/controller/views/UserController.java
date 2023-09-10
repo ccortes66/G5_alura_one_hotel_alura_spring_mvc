@@ -3,6 +3,7 @@ package com.alura.hotelalura.springboottres.controller.views;
 import java.io.IOException;
 import java.time.LocalDate;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -177,16 +178,23 @@ public class UserController
 
     @GetMapping("/cerrar")
     public String cerrarSession(HttpSession session)
-    {  
-        session.removeAttribute("users");
+    {   
+        this.cerrarSession((String) session.getAttribute("users"),session);
         return "redirect:/public";
     }
 
     @GetMapping("/empleado/cerrar")
     public String cerrarSessionEmpleado(HttpSession session)
     {  
-        session.removeAttribute("users");
+        this.cerrarSession((String) session.getAttribute("users"),session);
         return "redirect:/public/empleado";
+    }
+
+
+    private void cerrarSession(String username,HttpSession session)
+    {   userServices.deleteAllCache("cachingUserName", username);
+        session.removeAttribute("users");
+      
     }
 
     

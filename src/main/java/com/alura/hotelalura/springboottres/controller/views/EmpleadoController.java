@@ -1,6 +1,7 @@
 package com.alura.hotelalura.springboottres.controller.views;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,11 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alura.hotelalura.springboottres.controller.requests.ReservaRequest;
 import com.alura.hotelalura.springboottres.controller.responses.CreacionResponses;
+import com.alura.hotelalura.springboottres.controller.responses.ReservaResponses;
 import com.alura.hotelalura.springboottres.persitence.dto.habitacion.HabitacionModel;
 import com.alura.hotelalura.springboottres.persitence.dto.habitacion_tipo.HabitacionTipoModel;
 import com.alura.hotelalura.springboottres.service.EmpleadoService;
 import com.alura.hotelalura.springboottres.service.HabitacionService;
+import com.alura.hotelalura.springboottres.service.PublicService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,6 +29,7 @@ public class EmpleadoController
 {   
     private final EmpleadoService service;
     private final HabitacionService habitacionService;
+    private final PublicService publicService;
     private Boolean[] confirmaciones;
     
     @GetMapping
@@ -60,7 +65,7 @@ public class EmpleadoController
     {   
         model.addAttribute("responses", new CreacionResponses((String) session.getAttribute("users"),
                                                                             new Boolean[] {false,false},
-                                                                            habitacionService.listarPrCategoria()));
+                                                                            publicService.listarPorCategoria()));
         return "employer/habitacion";
     }
 
@@ -76,8 +81,8 @@ public class EmpleadoController
                           () -> {confirmaciones = new Boolean[] {false,false};});
 
         model.addAttribute("responses", new CreacionResponses((String) session.getAttribute("users"),
-                                                                            confirmaciones,
-                                                                            habitacionService.listarPrCategoria()));
+                                                                             confirmaciones,
+                                                                             publicService.listarPorCategoria()));
         return "employer/habitacion";
     }
 
@@ -94,9 +99,34 @@ public class EmpleadoController
 
         model.addAttribute("responses", new CreacionResponses((String) session.getAttribute("users"),
                                                                             confirmaciones,
-                                                                            habitacionService.listarPrCategoria()));
+                                                                            publicService.listarPorCategoria()));
         return "employer/habitacion";
     }
+
+
+    @GetMapping("/consultar/reservacion")
+    public String vistaConsultas(Model model,HttpSession session)
+    {   
+        model.addAttribute("reservaResponses", new ReservaResponses((String) session.getAttribute("users"),
+                                                                                publicService.listarPorCategoria(),
+                                                                                 null));
+        return "employer/consultar";
+    }
+
+    @PostMapping("/consultar/reservacion")
+    public String realizarConsultas(Model model,HttpServletRequest request,HttpSession session)
+    {   
+
+        ReservaResponses reservaResponses = publicService.ConsultarReserva(new ReservaRequest(LocalDate.parse(request.getParameter("checkIn")), 
+                                                                                                  LocalDate.parse(request.getParameter("checkOut")), 
+                                                                                                  request.getParameter("categoria"),
+                                                                                                 "employer/consultar", 
+                                                                                                 (String) session.getAttribute("users")));
+
+        model.addAttribute("reservaResponses", reservaResponses);
+        return "employer/consultar";
+    }
+
 
 
 

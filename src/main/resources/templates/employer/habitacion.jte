@@ -53,7 +53,7 @@
                          <label for="inputPassword2" >Habitacion tipo</label>
                          <select class="form-select" id="categoria" name="categoria" aria-label="Default select example" required>
                              @for(var categoria : responses.listarCaregoria())
-                                 <option class="text-capitalize" value="${categoria.getCategoria()}">${categoria.getCategoria()}</option>
+                                 <option class="text-capitalize" value="${categoria}">${categoria}</option>
                              @endfor
                          </select>
                      </div>

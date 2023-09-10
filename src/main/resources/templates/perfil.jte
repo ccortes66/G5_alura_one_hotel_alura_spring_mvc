@@ -1,28 +1,26 @@
-@import com.alura.hotelalura.model.Usuario
-@import com.alura.hotelalura.ssr.CookieController
-@import com.alura.hotelalura.ssr.dto.ListarPerfil
+@import com.alura.hotelalura.springboottres.persitence.dto.user.ClienteModel
 @import java.time.LocalDate
 @import java.time.Period
-@import java.util.TreeSet
 
 
-@param ListarPerfil listarPerfil
+@param ClienteModel listarPerfil
+
 
 <!doctype html>
 <html lang="en">
-@template.partes.head()
+@template.partes.includes.head()
 <body>
 
 
 <section class="container-fluid">
     <div class="row">
-        @template.partes.siderbar()
+        @template.partes.includes.siderbar()
 
         <div class="col-sm p-3 min-vh-100">
             <!-- content -->
-            @template.partes.titulos(listarPerfil.cliente().getUsuario(),
-                                     "Perfil",
-                                      "bi-person-circle fs-1")
+            @template.partes.includes.titulos(listarPerfil.username(),
+                                             "Perfil",
+                                             "bi-person-circle fs-1")
 
             <div class="container py-3">
 
@@ -33,12 +31,12 @@
                                 <img class="avatar avatar-128 bg-light rounded-circle text-white p-2"
                                      src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg" alt="d">
                                 <h5 class="my-3">
-                                    ${listarPerfil.cliente().getUsuario().getNombre()}
+                                    ${listarPerfil.userEntity().getInfoPersonal().getNombre()}
                                 </h5>
-                                @if(listarPerfil.cliente().getVip() != null)
-                                    <p class="text-muted mb-1">VIP Numero ${listarPerfil.cliente().getVip()}</p>
+                                @if(listarPerfil.vip() != 0)
+                                    <p class="text-muted mb-1">VIP Numero ${listarPerfil.vip()}</p>
                                 @endif
-                                <p class="text-muted mb-4"> Hotel alura puntos ${listarPerfil.cliente().getPuntos()}</p>
+                                <p class="text-muted mb-4"> Hotel alura puntos ${listarPerfil.puntos()}</p>
 
                             </div>
                         </div>
@@ -66,8 +64,8 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <p class="text-muted mb-0">
-                                            ${listarPerfil.cliente().getUsuario().getNombre()}
-                                            ${listarPerfil.cliente().getUsuario().getApellido()}
+                                            ${listarPerfil.userEntity().getInfoPersonal().getNombre()}
+                                            ${listarPerfil.userEntity().getInfoPersonal().getApellido()}
                                         </p>
                                     </div>
                                 </div>
@@ -79,7 +77,7 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <p class="text-muted mb-0">
-                                            ${Period.between(listarPerfil.cliente().getUsuario().getFechaNacimiento(),LocalDate.now()).getYears()}
+                                            ${Period.between(listarPerfil.userEntity().getInfoPersonal().getFechaNacimiento(),LocalDate.now()).getYears()}
                                         </p>
                                     </div>
                                 </div>
@@ -90,7 +88,7 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <p class="text-muted mb-0">
-                                            ${listarPerfil.cliente().getUsuario().getTelefono()}
+                                            ${listarPerfil.userEntity().getInfoPersonal().getTelefono()}
                                         </p>
                                     </div>
                                 </div>
@@ -101,7 +99,7 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <p class="text-muted mb-0">
-                                            ${listarPerfil.cliente().getNacionalidad()}
+                                            ${listarPerfil.nacionalidad()}
                                         </p>
                                     </div>
                                 </div>
@@ -112,14 +110,14 @@
                         <div class="col-lg-12">
                             <div class="card mb-4">
                                 <div class="card-body">
-                                   <form action="/perfil" method="post">
+                                   <form action="/cliente/perfil" method="post">
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <p class="mb-0">Teléfono</p>
                                         </div>
                                         <div class="col-sm-9">
                                             <p class="text-muted mb-0">
-                                                <input type="tel" id="telefono" name="telefono" required class="form-control" value="${listarPerfil.cliente().getUsuario().getTelefono()}" />
+                                                <input type="tel" id="telefono" name="telefono" required class="form-control" value="${listarPerfil.userEntity().getInfoPersonal().getTelefono()}" pattern="^\d{3} \d{7}$" />
                                             </p>
                                         </div>
                                     </div>
@@ -161,13 +159,13 @@
         reverseButtons: false
      }).then((resultado)=>{
         if(resultado.isConfirmed){
-           window.location.href = "/eliminar";
+           window.location.href = "/cliente/eliminar";
         }
       })
   });
 </script>
 @endraw
 
-@template.partes.footer()
+@template.partes.includes.footer()
 </body>
 </html>

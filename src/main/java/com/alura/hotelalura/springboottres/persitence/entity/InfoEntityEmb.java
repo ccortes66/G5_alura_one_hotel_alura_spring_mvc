@@ -1,5 +1,6 @@
 package com.alura.hotelalura.springboottres.persitence.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import jakarta.persistence.Embeddable;
@@ -14,7 +15,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class InfoEntityEmb 
+public class InfoEntityEmb implements Serializable
 {
    @NonNull 
    private String nombre;

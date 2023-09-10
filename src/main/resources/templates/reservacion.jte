@@ -1,7 +1,3 @@
-@import com.alura.hotelalura.model.Usuario
-@import com.alura.hotelalura.repository.dto.ReservaInfo
-@import com.alura.hotelalura.ssr.dto.ListarCatrgoriaMetodo
-@import com.alura.hotelalura.ssr.CookieController
 @import java.text.DecimalFormat
 
 @param Usuario user

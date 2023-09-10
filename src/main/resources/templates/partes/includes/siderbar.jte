@@ -17,7 +17,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/consultar/reservacion" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
+                        <a href="/cliente/consultar/reservacion" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
                             <i class="bi-cash-stack fs-1"></i>
                         </a>
                     </li>
@@ -29,7 +29,7 @@
                     </a>
                     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
                         <li><a href="/public/cerrar" class="dropdown-item" >Salir</a></li>
-                        <li><a href="/perfil" class="dropdown-item" >Perfil</a></li>
+                        <li><a href="/cliente/perfil" class="dropdown-item" >Perfil</a></li>
                     </ul>
                 </div>
             </div>

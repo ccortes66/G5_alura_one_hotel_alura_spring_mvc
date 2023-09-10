@@ -2,9 +2,11 @@ package com.alura.hotelalura.springboottres.controller.responses;
 
 import java.util.List;
 
-public record CreacionResponses(
+
+
+public record ReservaResponses(
     String username,
-    Boolean[] confirmaciones,
-    List<String> listarCaregoria 
+    List<String> listarCaregoria,
+    ConsultarResponses consultaResponses
 ) 
 {}
