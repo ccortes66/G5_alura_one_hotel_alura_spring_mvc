@@ -1,6 +1,6 @@
 package com.alura.hotelalura.springboottres.service;
 
-import org.springframework.cache.annotation.Cacheable;
+
 import org.springframework.stereotype.Service;
 
 import com.alura.hotelalura.springboottres.persitence.dto.user.ClienteModel;

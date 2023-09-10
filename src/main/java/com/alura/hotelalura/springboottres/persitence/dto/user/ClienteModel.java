@@ -1,6 +1,5 @@
 package com.alura.hotelalura.springboottres.persitence.dto.user;
 
-import java.io.Serializable;
 
 import com.alura.hotelalura.springboottres.persitence.entity.ClienteEntity;
 import com.alura.hotelalura.springboottres.persitence.entity.UserEntity;
