@@ -13,6 +13,7 @@ import com.alura.hotelalura.springboottres.controller.requests.ReservaRequest;
 import com.alura.hotelalura.springboottres.controller.responses.ConsultarResponses;
 import com.alura.hotelalura.springboottres.controller.responses.ReservaResponses;
 import com.alura.hotelalura.springboottres.persitence.repository.HabitacionTipoRepository;
+import com.alura.hotelalura.springboottres.persitence.repository.MetodoRepository;
 import com.alura.hotelalura.springboottres.service.validate.ReservaValidation;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class PublicService
 
     private final HabitacionTipoRepository habitacionTipoRepository;
     private final List<ReservaValidation> reservaValidation;
+    private final MetodoRepository metodoRepository;
   
      
     @Cacheable("listarPorCategoria")
@@ -48,6 +50,11 @@ public class PublicService
                                                           precioUnitario.multiply(new BigDecimal(dias))
                                                           ));
     }
-
+    
+    @Cacheable("listarMetodoPago")
+    public List<String> listarMetodoPago()
+    {
+      return metodoRepository.buscarMetodoPagos();
+    }
 
 }

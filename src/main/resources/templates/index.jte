@@ -1,5 +1,7 @@
+@import com.alura.hotelalura.springboottres.controller.responses.ListarReservacionResponses
+@import java.text.DecimalFormat
 
-@param String user
+@param ListarReservacionResponses resultadoLista
 
 <!doctype html>
 <html lang="en">
@@ -12,7 +14,7 @@
 
              <div class="col-sm p-3 min-vh-100">
                  
-                  @template.partes.includes.titulos(user,
+                  @template.partes.includes.titulos(resultadoLista.username(),
                                                     "Mis reservaciones",
                                                     "bi-arrow-repeat fs-1")
                   
@@ -28,20 +30,20 @@
                      </tr>
                      </thead>
                      <tbody>
-                     <!--
-                     @if(resultadoLista.infoList() != null)
-                         @for(ReservaInfo reservaInfo: resultadoLista.infoList())
+                     
+                     @if(resultadoLista.listarReservacion() != null)
+                         @for(var reservaInfo: resultadoLista.listarReservacion())
                              <tr>
-                                 <td class="text-capitalize">${reservaInfo.reserva()}</td>
-                                 <td class="text-capitalize">${String.valueOf(reservaInfo.checkIn())}</td>
-                                 <td class="text-capitalize">${String.valueOf(reservaInfo.checkOut())}</td>
-                                 <td class="text-capitalize">${new DecimalFormat("#,###.00").format(reservaInfo.precio())}</td>
-                                 <td class="text-capitalize">${reservaInfo.categoria()}</td>
-                                 <td class="text-capitalize">${reservaInfo.habitacion().toString()}</td>
+                                 <td class="text-capitalize">${reservaInfo.getReservaId()}</td>
+                                 <td class="text-capitalize">${String.valueOf(reservaInfo.getCheckIn())}</td>
+                                 <td class="text-capitalize">${String.valueOf(reservaInfo.getCheckOut())}</td>
+                                 <td class="text-capitalize">${new DecimalFormat("#,###.00").format(reservaInfo.getPrecioHabitacion())}</td> 
+                                 <td class="text-capitalize">${reservaInfo.getCategoria()}</td>
+                                 <td class="text-capitalize">${reservaInfo.getNumeroHabitacion().toString()}</td>
                              </tr>
                          @endfor
                      @endif
-                     -->
+                     
                      </tbody>
                  </table>
              </div>

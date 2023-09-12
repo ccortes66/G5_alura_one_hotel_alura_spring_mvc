@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alura.hotelalura.springboottres.controller.requests.ReservaRequest;
+import com.alura.hotelalura.springboottres.controller.responses.ListarReservacionResponses;
+import com.alura.hotelalura.springboottres.controller.responses.ReservaClienteResponses;
 import com.alura.hotelalura.springboottres.controller.responses.ReservaResponses;
+import com.alura.hotelalura.springboottres.persitence.dto.reserva.ListarReservacion;
 import com.alura.hotelalura.springboottres.service.ClienteService;
+import com.alura.hotelalura.springboottres.service.HabitacionService;
 import com.alura.hotelalura.springboottres.service.PublicService;
 import com.alura.hotelalura.springboottres.service.UserServices;
 
@@ -27,6 +31,7 @@ public class ClienteController
     private final PublicService publicService;
     private final ClienteService service;
     private final UserServices userServices;
+    private final HabitacionService habitacionService;
 
     @GetMapping
     public String mainCliente(Model model,HttpServletRequest request,HttpSession session)
@@ -34,6 +39,16 @@ public class ClienteController
         model.addAttribute("user",session.getAttribute("users"));
         return "index";
     }
+
+    @GetMapping("/listar/reservaciones")
+    public String vistaListarConsultas(Model model,HttpSession session)
+    {   
+        String username = (String) session.getAttribute("users");
+        model.addAttribute("resultadoLista", new ListarReservacionResponses(username,
+                                                                                          habitacionService.listarReservacionCliente(username)));
+        return "index";
+    }
+
 
     @GetMapping("/consultar/reservacion")
     public String vistaConsultas(Model model,HttpSession session)
@@ -51,12 +66,44 @@ public class ClienteController
         ReservaResponses reservaResponses = publicService.ConsultarReserva(new ReservaRequest(LocalDate.parse(request.getParameter("checkIn")), 
                                                                                                   LocalDate.parse(request.getParameter("checkOut")), 
                                                                                                   request.getParameter("categoria"),
-                                                                                                 "consultar", 
+                                                                                                 "consultar",
+                                                                                                 "", 
                                                                                                  (String) session.getAttribute("users")));
 
         model.addAttribute("reservaResponses", reservaResponses);
         return "consultar";
     }
+
+    @GetMapping("/generar/reservacion")
+    public String vistaGenerarReservacion(Model model,HttpSession session)
+    {   
+        
+        model.addAttribute("reservaResponses", new ReservaClienteResponses((String) session.getAttribute("users"),
+                                                                                         publicService.listarPorCategoria(),
+                                                                                         publicService.listarMetodoPago(),
+                                                                                         null));
+        
+        return "reservas";
+    }
+
+    @PostMapping("/generar/reservacion")
+    public String generarReservacion(Model model,HttpServletRequest request,HttpSession session)
+    {   
+        ListarReservacion listarReservacion =  habitacionService.generarReserva(new ReservaRequest(LocalDate.parse(request.getParameter("checkIn")),
+                                                                                LocalDate.parse(request.getParameter("checkOut")), 
+                                                                                request.getParameter("categoria"), 
+                                                                                "reservas", 
+                                                                                request.getParameter("metodoPago"),
+                                                                                (String) session.getAttribute("users")));
+
+        model.addAttribute("reservaResponses", new ReservaClienteResponses((String) session.getAttribute("users"),
+                                                                                         publicService.listarPorCategoria(),
+                                                                                         publicService.listarMetodoPago(),
+                                                                                         listarReservacion));
+        
+        return "reservas";
+    }
+
 
 
 

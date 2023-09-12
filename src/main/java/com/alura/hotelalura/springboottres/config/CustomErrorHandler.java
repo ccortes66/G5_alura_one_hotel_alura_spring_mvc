@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.alura.hotelalura.springboottres.config.CustomException.ResevaValidationException;
 import com.alura.hotelalura.springboottres.controller.responses.ErrorResponses;
 import com.alura.hotelalura.springboottres.controller.responses.LoginResponses;
+import com.alura.hotelalura.springboottres.controller.responses.ReservaClienteResponses;
 import com.alura.hotelalura.springboottres.controller.responses.ReservaResponses;
 import com.alura.hotelalura.springboottres.service.PublicService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -57,13 +59,26 @@ public class CustomErrorHandler
     }
 
     @ExceptionHandler(ResevaValidationException.class)
-    public String onValidationReservaError400(Model model,ResevaValidationException ex,HttpSession session)
+    public String onValidationReservaError400(Model model,
+                                              HttpServletRequest request,
+                                              ResevaValidationException ex,
+                                              HttpSession session)
     {   
        String[] args = ex.getMessage().split(","); 
        model.addAttribute("response", new ErrorResponses("400", args[0]));
-       model.addAttribute("reservaResponses", new ReservaResponses((String) session.getAttribute("users"),
-                                                                                  service.listarPorCategoria(),
-                                                                                  null));
+       
+       if(!request.getRequestURI().startsWith("/cliente/generar"))
+          {model.addAttribute("reservaResponses", new ReservaResponses((String) session.getAttribute("users"),
+                                                                                      service.listarPorCategoria(),
+                                                                                 null));
+          }
+        else
+          {model.addAttribute("reservaResponses", new ReservaClienteResponses((String) session.getAttribute("users"),
+                                                                                            service.listarPorCategoria(),
+                                                                                            service.listarMetodoPago(),
+                                                                                 null));
+
+          }                                                                       
        return args[1];  
     }
 

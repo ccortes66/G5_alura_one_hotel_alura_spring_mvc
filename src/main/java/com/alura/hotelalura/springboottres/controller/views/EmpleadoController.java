@@ -118,16 +118,15 @@ public class EmpleadoController
     {   
 
         ReservaResponses reservaResponses = publicService.ConsultarReserva(new ReservaRequest(LocalDate.parse(request.getParameter("checkIn")), 
-                                                                                                  LocalDate.parse(request.getParameter("checkOut")), 
-                                                                                                  request.getParameter("categoria"),
-                                                                                                 "employer/consultar", 
-                                                                                                 (String) session.getAttribute("users")));
+                                                                                              LocalDate.parse(request.getParameter("checkOut")), 
+                                                                                              request.getParameter("categoria"),
+                                                                                            "employer/consultar", 
+                                                                                                "",
+                                                                                                (String) session.getAttribute("users")));
 
         model.addAttribute("reservaResponses", reservaResponses);
         return "employer/consultar";
     }
-
-
 
 
 

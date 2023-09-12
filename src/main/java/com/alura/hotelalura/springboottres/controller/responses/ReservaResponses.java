@@ -8,5 +8,6 @@ public record ReservaResponses(
     String username,
     List<String> listarCaregoria,
     ConsultarResponses consultaResponses
+    
 ) 
 {}

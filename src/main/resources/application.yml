@@ -3,8 +3,8 @@ spring:
   datasource: 
     driver: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/hotel_aulra_spring?createDatabaseIfNotExist=true
-    username: ${USER_DB}
-    password: ${PASS_DB}
+    username: criss
+    password: 1234
   
   redis:
     host: localhost

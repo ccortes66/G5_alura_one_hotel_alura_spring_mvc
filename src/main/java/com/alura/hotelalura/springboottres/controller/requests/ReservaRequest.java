@@ -7,6 +7,7 @@ public record ReservaRequest(
     LocalDate checkOut,
     String categoria,
     String currentUri,
+    String metodoPago,
     String username
 ) 
 {}

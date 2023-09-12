@@ -1,6 +1,8 @@
 package com.alura.hotelalura.springboottres.persitence.dto.metodo;
 
-public interface MetodoListar 
+import java.io.Serializable;
+
+public interface MetodoListar extends Serializable
 {
    String getMetodo();    
 }
