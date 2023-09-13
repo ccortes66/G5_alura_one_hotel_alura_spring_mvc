@@ -25,9 +25,10 @@ public class CustomErrorHandler
     private final PublicService service;
 
 
-    @ExceptionHandler(RuntimeException.class)
-    public String error404(Model model)
-    {   
+    @ExceptionHandler(Exception.class)
+    public String error404(Model model, Exception exception)
+    {
+        System.out.println(exception.getMessage()+" "+exception.getCause());
         model.addAttribute("loginResponse", new LoginResponses("/ingreso",
                                                                                      "/img/hotelcliente.jpg",
                                                                                 null,

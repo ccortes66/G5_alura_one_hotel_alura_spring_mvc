@@ -2,10 +2,14 @@ package com.alura.hotelalura.springboottres.service;
 
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.alura.hotelalura.springboottres.controller.requests.ConsultaCriteriaRequest;
+import com.alura.hotelalura.springboottres.persitence.dto.reserva.ConsultaCriteria;
 import org.springframework.stereotype.Service;
 
 import com.alura.hotelalura.springboottres.controller.requests.ReservaRequest;
@@ -26,6 +30,11 @@ import com.alura.hotelalura.springboottres.persitence.repository.MetodoRepositor
 import com.alura.hotelalura.springboottres.persitence.repository.ReservaRepository;
 import com.alura.hotelalura.springboottres.service.validate.ReservaValidation;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -39,12 +48,44 @@ public class HabitacionService
     private final ClienteRepository clienteRepository;
     private final ReservaRepository reservaRepository;
     private final List<ReservaValidation> reservaValidation;
+    private final EntityManager manager;
     
     public List<MostrarReservacion> listarReservacionCliente(String username)
     {
-      return reservaRepository.mostrarReservacionCliente(username);
+        return reservaRepository.mostrarReservacionCliente(username);
     }
-   
+    
+    public List<ConsultaCriteria> listaCriteriaCliente(ConsultaCriteriaRequest request)
+    {
+
+          CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
+          CriteriaQuery<ReservaEntity> query = criteriaBuilder.createQuery(ReservaEntity.class);
+          Root<ReservaEntity> root = query.from(ReservaEntity.class);
+
+          List<Predicate> predicate = new ArrayList<>();
+          predicate.add(criteriaBuilder.equal(root.get("cliente").get("username"), request.username()));
+          predicate.add(
+                  criteriaBuilder.equal(root.get("habitacion")
+                          .get("habitacionTipo")
+                          .get("categoria"),request.categoria().get())
+
+          );
+
+          if(request.checkIn().isPresent())
+            {predicate.add(criteriaBuilder.equal(root.get("checkIn"),request.checkIn().get()));}
+          if(request.precio().isPresent())
+            {predicate.add(criteriaBuilder.greaterThanOrEqualTo(root.get("valorReserva"),request.precio().get()));}
+
+            Predicate finalPredicate = criteriaBuilder.and(predicate.toArray(new Predicate[0]));
+            query.select(root).where(finalPredicate);
+
+          return manager.createQuery(query).setMaxResults(10)
+                                           .getResultList()
+                                           .stream()
+                                           .map(ConsultaCriteria::new)
+                                           .toList();
+    }
+
 
     @Transactional
     public Optional<MetodoEntity> generarMetodoDePago(String metodo)

@@ -1,6 +1,4 @@
-@import com.alura.hotelalura.ssr.dto.ListarBusquedaEmpleado
 
-@param ListarBusquedaEmpleado listarBusquedaEmpleado
 <!doctype html>
 <html lang="en">
 @template.partes.head()

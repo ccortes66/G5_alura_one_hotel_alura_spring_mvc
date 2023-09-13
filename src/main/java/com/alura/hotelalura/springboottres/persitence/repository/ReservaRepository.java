@@ -1,6 +1,8 @@
 package com.alura.hotelalura.springboottres.persitence.repository;
 
 import java.util.List;
+
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -11,6 +13,8 @@ public interface ReservaRepository extends JpaRepository<ReservaEntity,String>
 {   
     @Query(value = CustomNativeQuery.LISTAR_RESERVACION_CLIENTE, nativeQuery = true)
     List<MostrarReservacion> mostrarReservacionCliente(String username);
+
+    
 }
 
 
@@ -26,7 +30,8 @@ class CustomNativeQuery
     ON re.numero = he.numero
     INNER JOIN habitacion_tipo_entity hte
     ON he.habitacion_tipo = hte.categoria
-    WHERE re.username = :username
+    WHERE re.activo = 1  AND  re.username = :username
+    ORDER  BY re.id DESC LIMIT 10
     """;
    
 }

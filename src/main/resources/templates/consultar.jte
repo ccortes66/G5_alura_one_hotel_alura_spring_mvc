@@ -22,9 +22,9 @@
               @template.partes.includes.titulos(reservaResponses.username(),
                                                        "Consultar Precio",
                                                        "bi-cash-stack fs-1")
-                  
 
-                                                
+
+
                  <form action="/cliente/consultar/reservacion" method="post">
                   <div class="row g-3">
 
@@ -44,7 +44,7 @@
                              @for(var categoria: reservaResponses.listarCaregoria())
                                      <option class="text-capitalize" value="${categoria}">${categoria}</option>
                              @endfor
-                          
+
                          </select>
                      </div>
 
@@ -55,7 +55,7 @@
 
                  </div>
                  </form>
-                 
+
                  @if(response != null)
 
                      <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
@@ -87,7 +87,7 @@
                          </div>
                      </div>
                  @endif
-             
+
              </div>
 
          </div>

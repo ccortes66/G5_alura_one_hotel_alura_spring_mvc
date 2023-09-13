@@ -16,11 +16,13 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
+@ToString
 public class ReservaEntity extends ValueSuperEntity
 {   
     

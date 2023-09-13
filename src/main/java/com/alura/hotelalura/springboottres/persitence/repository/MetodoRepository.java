@@ -10,17 +10,18 @@ import com.alura.hotelalura.springboottres.persitence.entity.MetodoEntity;
 
 public interface MetodoRepository extends CrudRepository<MetodoEntity,String>
 {   
-    @Query(value = JPQLValues.FIND_BY_METODOS)
+    @Query(value = """
+                SELECT M.metodo 
+                FROM MetodoEntity  
+                M WHERE M.activo = true
+                """)
     List<String> buscarMetodoPagos();
 }
 
-class JPQLValues
-{
-    public static final String FIND_BY_METODOS
-    = "SELECT M.metodo "+
-      "FROM MetodoEntity " + 
-      "M WHERE M.activo = true";
-}
+
+
+     
+
 
 
 

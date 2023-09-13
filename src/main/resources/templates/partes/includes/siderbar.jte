@@ -12,7 +12,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/buscar/reservacion" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Dashboard">
+                        <a href="/cliente/buscar/reservacion" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Dashboard">
                             <i class="bi-search fs-1"></i>
                         </a>
                     </li>

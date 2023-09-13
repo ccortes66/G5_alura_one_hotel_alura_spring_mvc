@@ -1,8 +1,12 @@
 package com.alura.hotelalura.springboottres.controller.views;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Optional;
 
+import com.alura.hotelalura.springboottres.controller.requests.ConsultaCriteriaRequest;
+import com.alura.hotelalura.springboottres.controller.responses.BuscarResponses;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +40,9 @@ public class ClienteController
     @GetMapping
     public String mainCliente(Model model,HttpServletRequest request,HttpSession session)
     {   
-        model.addAttribute("user",session.getAttribute("users"));
+        String username = (String) session.getAttribute("users");
+        model.addAttribute("resultadoLista", new ListarReservacionResponses(username,
+                                                                                          habitacionService.listarReservacionCliente(username)));
         return "index";
     }
 
@@ -102,6 +108,36 @@ public class ClienteController
                                                                                          listarReservacion));
         
         return "reservas";
+    }
+
+    @GetMapping("/buscar/reservacion")
+    public String vistaBuscar(Model model,HttpSession session)
+    {
+        model.addAttribute("buscarResponses",new BuscarResponses((String) session.getAttribute("users"),
+                                                                   null,
+                                                                              publicService.listarPorCategoria()));
+        return "buscar";
+    }
+
+    @PostMapping("/buscar/reservacion")
+    public String realizarBuscqueda(Model model,HttpServletRequest request,HttpSession session)
+    {
+        System.out.println(request.getParameter("checkIn"));
+        model.addAttribute("buscarResponses",new BuscarResponses((String) session.getAttribute("users"),
+                                                                             habitacionService.listaCriteriaCliente(new ConsultaCriteriaRequest(
+                                                                                     (String) session.getAttribute("users"),
+                                                                                     Optional.ofNullable(
+                                                                                             (request.getParameter("checkIn")).isEmpty() ? null
+                                                                                                                                               : LocalDate.parse(request.getParameter("checkIn")
+                                                                                     )),
+                                                                                     Optional.of(request.getParameter("categoria")),
+                                                                                     Optional.ofNullable(
+                                                                                             (request.getParameter("precioUnitario").isEmpty() ? null
+                                                                                                                                                     : new BigDecimal(request.getParameter("precioUnitario"))
+                                                                                     ))
+                                                                             )),
+                                                                             publicService.listarPorCategoria()));
+        return "buscar";
     }
 
 
