@@ -2,6 +2,7 @@ package com.alura.hotelalura.springboottres.controller.views;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,9 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alura.hotelalura.springboottres.controller.requests.ConsultaCriteriaEmpleadoRequest;
 import com.alura.hotelalura.springboottres.controller.requests.ReservaRequest;
-import com.alura.hotelalura.springboottres.controller.responses.BuscarClienteResponses;
 import com.alura.hotelalura.springboottres.controller.responses.BuscarResponses;
+import com.alura.hotelalura.springboottres.controller.responses.BuscarResponsesEmpleado;
 import com.alura.hotelalura.springboottres.controller.responses.CreacionResponses;
 import com.alura.hotelalura.springboottres.controller.responses.ReservaResponses;
 import com.alura.hotelalura.springboottres.persitence.dto.habitacion.HabitacionModel;
@@ -145,10 +147,29 @@ public class EmpleadoController
     @GetMapping("/buscar/reservacion")
     public String vistaBuscar(Model model,HttpSession session)
     {
-        model.addAttribute("buscarResponses",new BuscarResponses((String) session.getAttribute("users"),
+        model.addAttribute("buscarResponses",new BuscarResponsesEmpleado((String) session.getAttribute("users"),
                                                                    null));
         return "employer/buscar";
     }
+
+    @PostMapping("/buscar/reservacion")
+    public String realizarBuscar(Model model,HttpServletRequest request,HttpSession session)
+    {   
+        model.addAttribute("buscarResponses",new BuscarResponsesEmpleado((String) session.getAttribute("users"),
+                                                                                        habitacionService.listaCriteriaEmpleado(new ConsultaCriteriaEmpleadoRequest(Optional.ofNullable((request.getParameter("reservaId")).isEmpty() ? null : request.getParameter("reservaId") ),
+                                                                                                                                                                    Optional.ofNullable((request.getParameter("fechaInicio")).isEmpty() ? null : LocalDate.parse(request.getParameter("fechaInicio")) )))));
+        return "employer/buscar";
+    }
+
+    @GetMapping("/eliminar/reservacion")
+    public String eliminarResrvacion(Model model,HttpServletRequest request,HttpSession session)
+    {   
+        habitacionService.eliminarReservacion(request.getParameter("busqueda"));
+        model.addAttribute("buscarResponses",new BuscarResponsesEmpleado((String) session.getAttribute("users"),
+                                                                   null));
+        return "employer/buscar";
+    }
+
 
     
 

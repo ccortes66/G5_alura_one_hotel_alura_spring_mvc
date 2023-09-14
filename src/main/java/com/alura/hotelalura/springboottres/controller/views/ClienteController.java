@@ -125,7 +125,7 @@ public class ClienteController
     @PostMapping("/buscar/reservacion")
     public String realizarBuscqueda(Model model,HttpServletRequest request,HttpSession session)
     {
-        System.out.println(request.getParameter("checkIn"));
+        
         model.addAttribute("buscarResponses",new BuscarClienteResponses((String) session.getAttribute("users"),
                                                                              habitacionService.listaCriteriaCliente(new ConsultaCriteriaRequest(
                                                                                      (String) session.getAttribute("users"),

@@ -18,9 +18,9 @@ public interface ReservaRepository extends JpaRepository<ReservaEntity,String>
     
     @Query(value = MyQuery.LISTAR_POR_FECHA_ACTUAL)
     Page<ReservaEntity> buscarRservaPorFechaActual(LocalDate date,Pageable pageable);
+    
 
-    Page<ReservaEntity> findAll(Pageable pageable);
-
+    
     
 }
 
@@ -46,6 +46,9 @@ class MyQuery
       SELECT RS FROM ReservaEntity RS  
       WHERE RS.checkIn = :date    
     """;
+
+    
+
 
    
 }

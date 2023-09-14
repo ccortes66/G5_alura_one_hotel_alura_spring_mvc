@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.alura.hotelalura.springboottres.controller.requests.ConsultaCriteriaEmpleadoRequest;
 import com.alura.hotelalura.springboottres.controller.requests.ConsultaCriteriaRequest;
 import com.alura.hotelalura.springboottres.persitence.dto.reserva.ConsultaCriteria;
 
@@ -76,6 +77,7 @@ public class HabitacionService
 
           List<Predicate> predicate = new ArrayList<>();
           predicate.add(criteriaBuilder.equal(root.get("cliente").get("username"), request.username()));
+          predicate.add(criteriaBuilder.equal(root.get("activo"), true));  
           predicate.add(
                   criteriaBuilder.equal(root.get("habitacion")
                           .get("habitacionTipo")
@@ -96,6 +98,47 @@ public class HabitacionService
                                            .stream()
                                            .map(ConsultaCriteria::new)
                                            .toList();
+    }
+
+    public List<ConsultaCriteria> listaCriteriaEmpleado(ConsultaCriteriaEmpleadoRequest request)
+    { 
+      CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
+      CriteriaQuery<ReservaEntity> query = criteriaBuilder.createQuery(ReservaEntity.class);
+      Root<ReservaEntity> root = query.from(ReservaEntity.class);
+
+      List<Predicate> predicates = new ArrayList<>();
+      
+      predicates.add(criteriaBuilder.equal(root.get("activo"), true));  
+      
+      if(request.checkIn().isPresent())
+        {predicates.add(criteriaBuilder.equal(root.get("checkIn"), request.checkIn().get()));}
+
+      if(request.reservaId().isPresent())
+        {predicates.add(criteriaBuilder.equal(root.get("reservaId"), request.reservaId().get()));}
+      
+      
+
+      Predicate finPredicate = criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+      query.select(root).where(finPredicate);  
+       
+      return manager.createQuery(query).setMaxResults(10)
+                                       .getResultList()
+                                       .stream()
+                                       .map(ConsultaCriteria::new)
+                                       .toList();
+    }
+    
+    @Transactional
+    public void eliminarReservacion(String reservaId)
+    {
+      ReservaEntity reservaEntity = reservaRepository.findById(reservaId).get();
+      ClienteEntity clienteEntity = reservaEntity.getCliente();
+      clienteEntity.setPuntos(this.quitarPuntos(clienteEntity.getPuntos(),reservaEntity.getHabitacion()
+                                                                                       .getHabitacionTipo()
+                                                                                       .getPuntosUnitario()));
+      
+      reservaEntity.getHabitacion().setReservado(false);                                                                                 
+      reservaEntity.setActivo(false);
     }
 
 

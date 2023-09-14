@@ -1,3 +1,9 @@
+@import com.alura.hotelalura.springboottres.controller.responses.*
+@import java.time.LocalDate;
+
+
+@param BuscarResponsesEmpleado buscarResponses
+
 
 <!doctype html>
 <html lang="en">
@@ -11,13 +17,37 @@
 
              <div class="col-sm p-3 min-vh-100">
                  <!-- content -->
-                 @template.partes.includes.titulos("user",
+                 @template.partes.includes.titulos(buscarResponses.username(),
                                                   "Buscar Reservación",
                                                    "bi-search fs-1")
-                 <form action="/busqueda/reservacion" method="get">
-                     <label for="exampleDataList" class="form-label">Buscar</label>
-                     <input class="form-control" list="datalistOptions" name="busqueda" id="campoBusqueda" placeholder="Type to search...">
+                 
+
+                  <form id="formulario" action="/operacion/buscar/reservacion" method="post">
+                     <div class="row g-3">
+                         
+                         <div class="col-sm-5">
+                             <label for="inputPassword2" >reservaId</label>
+                             <input type="text" style="margin-top:3%; width:100%;"  class="form-control" id="precio" name="reservaId">
+                         </div>
+
+                         <div class="col-auto">
+                             <label for="checkOut" class="form-label">Check In</label>
+                             <input type="date" style="margin-top:3.6%;" id="checkIn" class="form-control" name="fechaInicio"   aria-label="First name">
+                         </div>
+
+                         
+                         <div class="col-auto">
+
+                             <button class="btn btn-outline-primary btn-block " style="margin-top:73%; border-radius: 100%;"  type="submit">
+                                 <i class="bi-search"></i>
+                             </button>
+                         </div>
+
+                     </div>
                  </form>
+
+
+
 
                     <table class="table table-hover mt-3">
                      <thead >
@@ -32,31 +62,30 @@
                          </tr>
                      </thead>
                      <tbody>
-                     <!---
-                     <tr id="myResult">
+                   
+                        @if(buscarResponses.listarCriteria() != null)
+                            @for(var busqueda: buscarResponses.listarCriteria() )
+                             <tr class="myResult">
+                                <td class="text-capitalize">${busqueda.reservaId()}</td>
+                                <td class="text-capitalize">${busqueda.checkIn()}</td>
+                                <td class="text-capitalize">${busqueda.checOut()}</td>
+                                <td class="text-capitalize">${busqueda.categoria()}</td>
+                                <td class="text-capitalize">${busqueda.metodoDePago()}</td>
+                                <td class="text-capitalize">${busqueda.numeroDeHabitacion().toString()}</td>
+                                <td class="text-capitalize">
+                                    @if(LocalDate.parse(busqueda.checkIn()).isAfter(LocalDate.now().plusDays(1)))
+                                    <a  class="btn btn-outline-danger btn-block btnEliminar">Eliminar</a>
+                                    @endif
+                                </td>
+                             </tr>   
+                            @endfor
+                        @endif
 
-                         @if(listarBusquedaEmpleado.infoEmpleados() != null)
-                             <td  class="text-capitalize">${listarBusquedaEmpleado.infoEmpleados().reserva()}</td>
-                             <td class="text-capitalize">${String.valueOf(listarBusquedaEmpleado.infoEmpleados().checkIn())}</td>
-                             <td class="text-capitalize">${String.valueOf(listarBusquedaEmpleado.infoEmpleados().checkOut())}</td>
-                             <td class="text-capitalize">${listarBusquedaEmpleado.infoEmpleados().categoria()}</td>
-                             <td class="text-capitalize">${listarBusquedaEmpleado.infoEmpleados().metodoPago()}</td>
-                             <td class="text-capitalize">${listarBusquedaEmpleado.infoEmpleados().numero()}</td>
-                             <td class="text-capitalize"><a id="btnEliminar" class="btn btn-outline-danger btn-block">Eliminar</a></td>
-
-                         @endif
-                     </tr>
-                     -->
+                     
+                     
                      </tbody>
                  </table>
-                <!--
-                 @if(listarBusquedaEmpleado.infoEmpleados() == null && !listarBusquedaEmpleado.confirm())
-                     <div class="alert alert-info alert-dismissible fade show mt-4" role="alert">
-                         <strong>Error 404</strong> No existe registros
-                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                     </div>
-                 @endif
-                 -->
+                
              </div>
 
          </div>
@@ -64,28 +93,32 @@
 
     @raw
     <script>
-        let data = document.querySelector("#btnEliminar");
+        const btnEliminar = document.querySelectorAll(".btnEliminar");
+         
+        btnEliminar.forEach((btn,index) =>{
+            btn.addEventListener("click",()=>{
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "¡Esta acción no se puede deshacer!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí',
+                    cancelButtonText: 'No',
+                    reverseButtons: false
+                }).then((resultado)=>{
+                    if(resultado.isConfirmed)
+                    { const filas = document.querySelectorAll('.myResult');
+                      window.location.href = "/operacion/eliminar/reservacion?busqueda="+filas[index].getElementsByTagName("td")[0].innerHTML;    
+                    }
 
-         data.addEventListener("click",()=>{
-         Swal.fire({
-            title: '¿Estás seguro?',
-            text: "¡Esta acción no se puede deshacer!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Sí',
-            cancelButtonText: 'No',
-            reverseButtons: false
-         }).then((resultado)=>{
-            if(resultado.isConfirmed){
-               let reservaValor = document.querySelector("#myResult")
-               let elementoLista = reservaValor.getElementsByTagName("td");
-               window.location.href = "/eliminar/reservacion?busqueda="+elementoLista[0].innerHTML;
-            }
-          })
-      });
+                });
+            });
+
+        }); 
+        
     </script>
     @endraw
 
 @template.partes.includes.footer()
 </body>
-</html>>
+</html>
