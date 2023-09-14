@@ -10,10 +10,13 @@ import java.util.Optional;
 
 import com.alura.hotelalura.springboottres.controller.requests.ConsultaCriteriaRequest;
 import com.alura.hotelalura.springboottres.persitence.dto.reserva.ConsultaCriteria;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.alura.hotelalura.springboottres.controller.requests.ReservaRequest;
-import com.alura.hotelalura.springboottres.controller.responses.ListarReservacionResponses;
 import com.alura.hotelalura.springboottres.persitence.dto.habitacion.HabitacionModel;
 import com.alura.hotelalura.springboottres.persitence.dto.habitacion_tipo.HabitacionTipoModel;
 import com.alura.hotelalura.springboottres.persitence.dto.reserva.ListarReservacion;
@@ -53,6 +56,15 @@ public class HabitacionService
     public List<MostrarReservacion> listarReservacionCliente(String username)
     {
         return reservaRepository.mostrarReservacionCliente(username);
+    }
+
+    public Page<ConsultaCriteria> listaReservaActual(int pagina)
+    {  
+       Pageable pageableReques = PageRequest.of(pagina, 10); 
+       
+       
+       return reservaRepository.buscarRservaPorFechaActual(LocalDate.now(),pageableReques)
+                                                                          .map(ConsultaCriteria::new);
     }
     
     public List<ConsultaCriteria> listaCriteriaCliente(ConsultaCriteriaRequest request)

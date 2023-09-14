@@ -1,5 +1,8 @@
+@import com.alura.hotelalura.springboottres.controller.responses.*
 
-@param String user
+
+
+@param BuscarResponses buscarResponses
 
 <!doctype html>
 <html lang="en">
@@ -11,24 +14,42 @@
         @template.partes.includes.siderbarEmpleado()
 
         <div class="col-sm p-3 min-vh-100">
-          @template.partes.includes.titulos(user,
-                                           "reservaciones",
+          @template.partes.includes.titulos(buscarResponses.username(),
+                                           "reservaciones Actuales",
                                            "bi-arrow-repeat fs-1")
 
+            <div class="d-flex justify-content-between ">
+
+               <div>
+                   <p class="text-capitalize">buscar</p>
+                   <nav aria-label="Page navigation example" >
+                   <ul class="pagination">
+                    <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                    </li>
+                    
+                    @for(int i = 0; i<(buscarResponses.listarCriteria().getTotalElements()/10)+1; i++ )
+                        <li class="page-item"><a class="page-link" href="/operacion?pagina=${i}">${i+1}</a></li>
+                    @endfor  
+                    
+                    <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                    </li>
+                </ul>
+                </nav>
+             </div>    
+                
+                 <div>
+                   <p class="text-capitalize">Total ${buscarResponses.listarCriteria().getTotalElements()} </p>
+                 </div>
+
+             </div>  
+          
            
-            <form action="/busqueda" method="get">
-                <p class="text-capitalize">buscar</p>
-                <div class="input-group">
-                    <div class="form-outline">
-                        <input type="number" id="form1" name="buscar" class="form-control" />
-                    </div>
-                    <button type="submit"  class="btn btn-primary">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </form>
-           <!--
-            @if(resultadoListaEmpleado.lista() != null)
 
             <table class="table table-hover mt-3">
                 <thead >
@@ -42,30 +63,37 @@
                 </tr>
                 </thead>
                 <tbody>
-                @if(resultadoListaEmpleado.lista().size() != 0)
-                    @for(ReservaInfoEmpleados reservaInfo: resultadoListaEmpleado.lista())
-                        <tr>
+               
+                      @if(buscarResponses.listarCriteria().getContent() != null)
 
-                            <td class="text-capitalize">${reservaInfo.reserva()}</td>
-                            <td class="text-capitalize">${String.valueOf(reservaInfo.checkIn())}</td>
-                            <td class="text-capitalize">${String.valueOf(reservaInfo.checkOut())}</td>
-                            <td class="text-capitalize">${reservaInfo.categoria()}</td>
-                            <td class="text-capitalize">${reservaInfo.metodoPago()}</td>
-                            <td class="text-capitalize">${reservaInfo.numero()}</td>
+                           @for(var busqueda: buscarResponses.listarCriteria().getContent() )
+                            <tr>
+                                 <td class="text-capitalize">${busqueda.reservaId()}</td>
+                                 <td class="text-capitalize">${busqueda.checkIn()}</td>
+                                 <td class="text-capitalize">${busqueda.checOut()}</td>
+                                 <td class="text-capitalize">${busqueda.categoria()}</td>
+                                 <td class="text-capitalize">${busqueda.metodoDePago()}</td>
+                                 <td class="text-capitalize">${busqueda.numeroDeHabitacion().toString()}</td>
+                            </tr>
+                           @endfor
 
-                         </tr>
-                    @endfor
-                @endif
+                         @endif
+                
                
                 </tbody>
             </table>
-
-          @endif
-         -->
         </div>
+    
+      
 
     </div>
+
+     
+
 </section>
+
+  
+        
 
 @template.partes.includes.footer()
 </body>

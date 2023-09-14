@@ -1,8 +1,10 @@
 package com.alura.hotelalura.springboottres.persitence.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -11,14 +13,19 @@ import com.alura.hotelalura.springboottres.persitence.entity.ReservaEntity;
 
 public interface ReservaRepository extends JpaRepository<ReservaEntity,String> 
 {   
-    @Query(value = CustomNativeQuery.LISTAR_RESERVACION_CLIENTE, nativeQuery = true)
+    @Query(value = MyQuery.LISTAR_RESERVACION_CLIENTE, nativeQuery = true)
     List<MostrarReservacion> mostrarReservacionCliente(String username);
+    
+    @Query(value = MyQuery.LISTAR_POR_FECHA_ACTUAL)
+    Page<ReservaEntity> buscarRservaPorFechaActual(LocalDate date,Pageable pageable);
+
+    Page<ReservaEntity> findAll(Pageable pageable);
 
     
 }
 
 
-class CustomNativeQuery
+class MyQuery
 {
     public static final String LISTAR_RESERVACION_CLIENTE
     = """
@@ -33,5 +40,12 @@ class CustomNativeQuery
     WHERE re.activo = 1  AND  re.username = :username
     ORDER  BY re.id DESC LIMIT 10
     """;
+
+    public static final String LISTAR_POR_FECHA_ACTUAL 
+    ="""
+      SELECT RS FROM ReservaEntity RS  
+      WHERE RS.checkIn = :date    
+    """;
+
    
 }

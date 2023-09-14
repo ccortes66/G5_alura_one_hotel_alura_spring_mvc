@@ -1,7 +1,8 @@
 @import com.alura.hotelalura.springboottres.controller.responses.ErrorResponses
+@import java.util.TreeSet
 
 @param ErrorResponses response 
-
+@param TreeSet<String> paisResponses
 
 <!doctype html>
 <html lang="en">
@@ -57,19 +58,19 @@
                                             <label class="form-label" for="fechaNacimiento">Fecha Nacimiento</label>
                                         </div>
                                     </div>
-                                   <!--
+                                   
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
                                             <select class="form-select" id="categoria" name="nacionalidad" aria-label="Default select example" required>
-                                                @for(String pais : CookieController.getMysPaises())
+                                                @for(String pais : paisResponses)
                                                     <option class="text-capitalize" value="${pais}">${pais}</option>
                                                 @endfor
                                             </select>
                                             <label class="form-label" for="categoria">Nacionalidad</label>
                                         </div>
                                     </div>
-                                    -->
+                                    
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">

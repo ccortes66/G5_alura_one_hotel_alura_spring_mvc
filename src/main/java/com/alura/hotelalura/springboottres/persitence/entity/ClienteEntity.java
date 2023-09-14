@@ -26,6 +26,7 @@ public class ClienteEntity
     private String username;
     private Integer puntos = 0;
     private Byte vip = 0;
+    @NonNull
     private String nacionalida;
      
 

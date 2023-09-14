@@ -11,7 +11,8 @@ public record ConsultaCriteria(
         String checOut,
         BigDecimal precio,
         String categoria,
-        Integer numeroDeHabitacion
+        Integer numeroDeHabitacion,
+        String metodoDePago
 
 )
 {
@@ -22,6 +23,7 @@ public record ConsultaCriteria(
             reservacion.getCheckOut().format(DateTimeFormatter.ISO_DATE),
             reservacion.getValorReserva(),
             reservacion.getHabitacion().getHabitacionTipo().getCategoria(),
-            reservacion.getHabitacion().getNumero());
+            reservacion.getHabitacion().getNumero(),
+            reservacion.getMetodoPago().getMetodo());
    }
 }

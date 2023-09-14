@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alura.hotelalura.springboottres.controller.requests.ReservaRequest;
+import com.alura.hotelalura.springboottres.controller.responses.BuscarClienteResponses;
+import com.alura.hotelalura.springboottres.controller.responses.BuscarResponses;
 import com.alura.hotelalura.springboottres.controller.responses.CreacionResponses;
 import com.alura.hotelalura.springboottres.controller.responses.ReservaResponses;
 import com.alura.hotelalura.springboottres.persitence.dto.habitacion.HabitacionModel;
@@ -31,11 +33,21 @@ public class EmpleadoController
     private final HabitacionService habitacionService;
     private final PublicService publicService;
     private Boolean[] confirmaciones;
+    private int paginas;
     
     @GetMapping
     public String index(Model model,HttpServletRequest request,HttpSession session)
-    {   
-        model.addAttribute("user", session.getAttribute("users"));
+    {  
+     
+        if(request.getParameter("pagina") == null || 
+          Integer.valueOf(request.getParameter("pagina")) <0)
+          {paginas = 0;}
+        else
+          {paginas = Integer.valueOf(request.getParameter("pagina"));}
+
+        model.addAttribute("buscarResponses",new BuscarResponses((String) session.getAttribute("users"),
+                                                                               habitacionService.listaReservaActual(paginas)));
+       
         return "employer/index";
     }
     
@@ -127,13 +139,18 @@ public class EmpleadoController
         model.addAttribute("reservaResponses", reservaResponses);
         return "employer/consultar";
     }
+  
 
 
+    @GetMapping("/buscar/reservacion")
+    public String vistaBuscar(Model model,HttpSession session)
+    {
+        model.addAttribute("buscarResponses",new BuscarResponses((String) session.getAttribute("users"),
+                                                                   null));
+        return "employer/buscar";
+    }
 
-
-
-
-
+    
 
 
     @GetMapping("/perfil")

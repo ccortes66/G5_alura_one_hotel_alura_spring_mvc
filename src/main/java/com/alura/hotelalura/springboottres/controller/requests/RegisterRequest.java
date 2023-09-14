@@ -14,7 +14,8 @@ public record RegisterRequest(
     String verifyPassword,
     String currentUri,
     RoleUser roleUser,
-    String CargoEmpleado
+    String CargoEmpleado,
+    String nacionalidad
 
 ) 
 {}

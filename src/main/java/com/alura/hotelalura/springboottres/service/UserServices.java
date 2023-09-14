@@ -62,7 +62,7 @@ public class UserServices implements UserDetailsService
                       uEntity.setPassword(passwordEncoder.encode(request.password()));
                       repository.save(uEntity);
                       if(request.roleUser().equals(RoleUser.CLIENTE))
-                        {manager.persist(new ClienteEntity(uEntity.getUsername()));}
+                        {manager.persist(new ClienteEntity(uEntity.getUsername(),request.nacionalidad()));}
                       else
                         {manager.persist(new EmpleadoEntity(uEntity.getUsername(),request.CargoEmpleado()));}                      
                  }

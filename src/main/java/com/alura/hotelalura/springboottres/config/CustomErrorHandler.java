@@ -1,5 +1,7 @@
 package com.alura.hotelalura.springboottres.config;
 
+import java.io.IOException;
+
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.ui.Model;
@@ -38,10 +40,12 @@ public class CustomErrorHandler
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public String error400(Model model,IllegalArgumentException ex)
+    public String error400(Model model,HttpServletRequest request,IllegalArgumentException ex) throws IOException
     {   
-       String[] args = ex.getMessage().split(","); 
-       model.addAttribute("response", new ErrorResponses("400", args[0]));
+       String[] args = ex.getMessage().split(",");
+       if(request.getRequestURI().equals("/public/registrar")) 
+         { model.addAttribute("paisResponses", service.generarPaisses());} 
+        model.addAttribute("response", new ErrorResponses("400", args[0]));
        return args[1];  
     }
 

@@ -2,11 +2,11 @@ package com.alura.hotelalura.springboottres.controller.responses;
 
 import com.alura.hotelalura.springboottres.persitence.dto.reserva.ConsultaCriteria;
 
-import java.util.List;
+
+import org.springframework.data.domain.Page;
 
 public record BuscarResponses(
         String username,
-        List<ConsultaCriteria> listarCriteria,
-        List<String> listarCategoria
+        Page<ConsultaCriteria> listarCriteria     
 )
 {}

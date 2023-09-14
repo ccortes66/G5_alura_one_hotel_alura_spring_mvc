@@ -17,6 +17,7 @@ import com.alura.hotelalura.springboottres.controller.requests.RegisterRequest;
 
 import com.alura.hotelalura.springboottres.controller.responses.LoginResponses;
 import com.alura.hotelalura.springboottres.persitence.entity.RoleUser;
+import com.alura.hotelalura.springboottres.service.PublicService;
 import com.alura.hotelalura.springboottres.service.UserServices;
 import com.alura.hotelalura.springboottres.service.validate.HCatchaValidation;
 
@@ -34,6 +35,8 @@ public class UserController
     private final UserServices userServices;
     private final AuthenticationManager manager;
     private final HCatchaValidation catchaValidation;
+    private final PublicService publicService;
+
     private LoginResponses clienteResponses = new LoginResponses("/public/ingreso",
                                                               "/img/hotelcliente.jpg",
                                                               null,
@@ -54,9 +57,9 @@ public class UserController
     }
 
     @GetMapping("/registrar")
-    public String vistaFormularioCliente(Model model,HttpServletRequest request)
+    public String vistaFormularioCliente(Model model,HttpServletRequest request) throws IOException
     {   
-        model.addAttribute("response", null);
+        model.addAttribute("paisResponses", publicService.generarPaisses());
         return "formulario";
     }
 
@@ -89,7 +92,8 @@ public class UserController
                                                               request.getParameter("password2"),
                                                               "formulario",
                                                               RoleUser.CLIENTE,
-                                                              null);  
+                                                              null,
+                                                              request.getParameter("nacionalidad"));  
         
         if(!catchaValidation.validate(request.getParameter("h-captcha-response")))
           {throw new IllegalArgumentException(String.format("%s,%s"
@@ -116,7 +120,8 @@ public class UserController
                                                               request.getParameter("password2"),
                                                               "employer/formulario",
                                                               RoleUser.EMPLEADO,
-                                                              request.getParameter("cargo"));
+                                                              request.getParameter("cargo"),
+                                                              null);
                                                             
         
         if(!catchaValidation.validate(request.getParameter("h-captcha-response")))

@@ -2,7 +2,7 @@
 @import java.text.DecimalFormat
 
 
-@param BuscarResponses buscarResponses
+@param BuscarClienteResponses buscarResponses
 
 
 
@@ -49,7 +49,7 @@
 
                          <div class="col-auto">
 
-                             <button class="btn btn-outline-primary btn-block " style="margin-top:73%"  type="submit">
+                             <button class="btn btn-outline-primary btn-block " style="margin-top:73%; border-radius: 100%;"  type="submit">
                                  <i class="bi-search"></i>
                              </button>
                          </div>
