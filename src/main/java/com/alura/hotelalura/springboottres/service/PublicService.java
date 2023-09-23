@@ -1,12 +1,10 @@
 package com.alura.hotelalura.springboottres.service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.TreeSet;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.alura.hotelalura.springboottres.controller.requests.ReservaRequest;
@@ -34,7 +32,7 @@ public class PublicService
     private final ObjectMapper mapper;
   
      
-    @Cacheable("listarPorCategoria")
+ 
     public List<String> listarPorCategoria()
     {   
         return habitacionTipoRepository.findByActivoTrue();
@@ -43,7 +41,7 @@ public class PublicService
     public ReservaResponses ConsultarReserva (ReservaRequest request)
     { 
        reservaValidation.forEach((validar) -> validar.validate(request));
-       BigDecimal precioUnitario = habitacionTipoRepository.findById(request.categoria())
+       Float precioUnitario = habitacionTipoRepository.findById(request.categoria())
                                                                                        .get()
                                                                                        .getPercioUnitario();
           
@@ -53,17 +51,17 @@ public class PublicService
                                    new ConsultarResponses(request.checkIn(), 
                                                           request.checkOut(), 
                                                           request.categoria(), 
-                                                          precioUnitario.multiply(new BigDecimal(dias))
+                                                          (precioUnitario * dias)
                                                           ));
     }
     
-    @Cacheable("listarMetodoPago")
+   
     public List<String> listarMetodoPago()
     {
       return metodoRepository.buscarMetodoPagos();
     }
     
-    @Cacheable(cacheNames = "cachingUserName", key = "'generarPaisses'")
+    
     public TreeSet<String> generarPaisses() throws IOException
     {   
 

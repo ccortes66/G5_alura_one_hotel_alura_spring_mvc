@@ -88,7 +88,7 @@ public class EmpleadoController
     {   
 
         habitacionService.generarHabitacionTipo(new HabitacionTipoModel(request.getParameter("categoria"),
-                                                                        new BigDecimal(request.getParameter("precioUnitario")),  
+                                                                        Float.valueOf(request.getParameter("precioUnitario")),  
                                                                         Integer.valueOf(request.getParameter("puntoUnitario")))
         
         ).ifPresentOrElse((data) -> {confirmaciones = new Boolean[] {true,false};},

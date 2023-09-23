@@ -26,8 +26,7 @@ import lombok.ToString;
 public class ReservaEntity extends ValueSuperEntity
 {   
     
-    @Setter(AccessLevel.NONE)
-    private Long id;
+   
     @Id
     @Setter(AccessLevel.NONE) 
     private String reservaId = UUID.randomUUID().toString();
@@ -36,7 +35,7 @@ public class ReservaEntity extends ValueSuperEntity
     @NonNull
     private LocalDate checkOut;
     @NonNull
-    private BigDecimal valorReserva;
+    private Float valorReserva;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username",

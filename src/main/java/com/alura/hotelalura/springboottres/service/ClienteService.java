@@ -38,8 +38,8 @@ public class ClienteService
     public void eliminarCliente(String username)
     {
         userRepository.findById(username)
-                                   .ifPresent((data) -> {data.setIsDisabled(true);
-                                                         data.setLocked(true);});
+                                   .ifPresent((data) -> {data.setIsDisabled(1);
+                                                         data.setLocked(1);});
         
         
     }

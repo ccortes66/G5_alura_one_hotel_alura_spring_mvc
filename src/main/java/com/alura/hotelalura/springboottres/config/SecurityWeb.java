@@ -41,9 +41,7 @@ public class SecurityWeb
                                                     .anyRequest()
                                                     .authenticated())  
              .addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class)
-             .formLogin(login -> login
-                                  .loginPage("/public")
-                                  .permitAll());
+             .formLogin(login -> login.loginPage("/public").permitAll());
         return security.build();
     }
 

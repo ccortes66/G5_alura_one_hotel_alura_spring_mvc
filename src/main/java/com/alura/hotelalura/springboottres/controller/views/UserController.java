@@ -197,7 +197,7 @@ public class UserController
 
 
     private void cerrarSession(String username,HttpSession session)
-    {   userServices.deleteAllCache("cachingUserName", username);
+    {   
         session.removeAttribute("users");
       
     }

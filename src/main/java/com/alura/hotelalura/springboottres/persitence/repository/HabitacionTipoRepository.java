@@ -24,7 +24,7 @@ class JPQLValues
       "FROM HabitacionTipoEntity ht ";
      
     public static final String FIND_BY_ACTIVOS
-    = CONSULTA_BASE + "WHERE ht.activo = true ";
+    = CONSULTA_BASE + "WHERE ht.activo = 1 ";
 
 
 

@@ -20,12 +20,11 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class HabitacionEntity extends ValueSuperEntity
 {   
-    @Setter(AccessLevel.NONE)
-    private Long id;
+   
     @Id
     @NonNull
     private Integer numero;
-    private Boolean reservado = false;
+    private Integer reservado = 0;
     @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "habitacion_tipo",

@@ -23,7 +23,7 @@ public class HabitacionTipoEntity extends ValueSuperEntity
     @NonNull
     private String categoria;
     @NonNull
-    private BigDecimal percioUnitario;
+    private Float percioUnitario;
     @NonNull
     private Integer puntosUnitario;
      

@@ -27,8 +27,8 @@ public class UserEntity implements Serializable
     @NonNull
     private String documento;
     private String password;
-    private Boolean locked = false;
-    private Boolean isDisabled = false;
+    private Integer locked = 0;
+    private Integer isDisabled = 0;
     @NonNull
     @Enumerated(EnumType.STRING)
     private RoleUser roles;

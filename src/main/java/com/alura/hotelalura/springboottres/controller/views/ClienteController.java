@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import com.alura.hotelalura.springboottres.controller.requests.ConsultaCriteriaRequest;
 import com.alura.hotelalura.springboottres.controller.responses.BuscarClienteResponses;
-import com.alura.hotelalura.springboottres.controller.responses.BuscarResponses;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +27,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
-@Controller
+
 @RequestMapping("/cliente")
 @RequiredArgsConstructor
 public class ClienteController 
@@ -163,7 +162,7 @@ public class ClienteController
     @GetMapping("/eliminar")
     public String eliminarCliente(HttpSession session)
     {   
-        userServices.deleteAllCache("cachingUserName", (String) session.getAttribute("users")); 
+        
         service.eliminarCliente((String) session.getAttribute("users"));
         session.removeAttribute("users");
         return "redirect:/public";

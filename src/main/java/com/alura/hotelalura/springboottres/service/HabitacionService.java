@@ -77,7 +77,7 @@ public class HabitacionService
 
           List<Predicate> predicate = new ArrayList<>();
           predicate.add(criteriaBuilder.equal(root.get("cliente").get("username"), request.username()));
-          predicate.add(criteriaBuilder.equal(root.get("activo"), true));  
+          predicate.add(criteriaBuilder.equal(root.get("activo"), 1));  
           predicate.add(
                   criteriaBuilder.equal(root.get("habitacion")
                           .get("habitacionTipo")
@@ -108,7 +108,7 @@ public class HabitacionService
 
       List<Predicate> predicates = new ArrayList<>();
       
-      predicates.add(criteriaBuilder.equal(root.get("activo"), true));  
+      predicates.add(criteriaBuilder.equal(root.get("activo"), 1));  
       
       if(request.checkIn().isPresent())
         {predicates.add(criteriaBuilder.equal(root.get("checkIn"), request.checkIn().get()));}
@@ -137,8 +137,8 @@ public class HabitacionService
                                                                                        .getHabitacionTipo()
                                                                                        .getPuntosUnitario()));
       
-      reservaEntity.getHabitacion().setReservado(false);                                                                                 
-      reservaEntity.setActivo(false);
+      reservaEntity.getHabitacion().setReservado(1);                                                                                 
+      reservaEntity.setActivo(0);
     }
 
 
@@ -190,7 +190,7 @@ public class HabitacionService
        //puntos   
        cliente.setPuntos(this.agregarPuntos(cliente.getPuntos(), habitacionAsignada.getHabitacionTipo().getPuntosUnitario()));
        //reservando habitacion
-       habitacionAsignada.setReservado(true);
+       habitacionAsignada.setReservado(1);
 
        //agregando valores
        reserva.setHabitacion(habitacionAsignada);
@@ -209,15 +209,15 @@ public class HabitacionService
     {return puntosCliente -= puntosHabitacionTipo;
     }
 
-    private BigDecimal calcularPrecioHabitacion(ReservaRequest request)
+    private Float calcularPrecioHabitacion(ReservaRequest request)
     {
-      BigDecimal precioHabitacion = habitacionTipoRepository.findById(request.categoria())
+      Float precioHabitacion = habitacionTipoRepository.findById(request.categoria())
                                                                                       .get()
                                                                                       .getPercioUnitario();
 
 
       Long diasHospedaje = ChronoUnit.DAYS.between(request.checkIn(), request.checkOut());
-      return precioHabitacion.multiply(new BigDecimal(diasHospedaje));
+      return precioHabitacion * diasHospedaje;
     }
 
 

@@ -8,5 +8,5 @@ import lombok.Setter;
 @Getter @Setter
 public class ValueSuperEntity 
 {
-    private Boolean activo = true;
+    private Integer activo = 1;
 }

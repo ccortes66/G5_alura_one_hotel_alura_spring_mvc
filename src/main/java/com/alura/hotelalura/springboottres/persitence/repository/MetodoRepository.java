@@ -13,7 +13,7 @@ public interface MetodoRepository extends CrudRepository<MetodoEntity,String>
     @Query(value = """
                 SELECT M.metodo 
                 FROM MetodoEntity  
-                M WHERE M.activo = true
+                M WHERE M.activo = 1
                 """)
     List<String> buscarMetodoPagos();
 }

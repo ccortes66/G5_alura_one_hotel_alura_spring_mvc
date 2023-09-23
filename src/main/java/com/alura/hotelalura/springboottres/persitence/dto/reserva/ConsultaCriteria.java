@@ -2,14 +2,14 @@ package com.alura.hotelalura.springboottres.persitence.dto.reserva;
 
 import com.alura.hotelalura.springboottres.persitence.entity.ReservaEntity;
 
-import java.math.BigDecimal;
+
 import java.time.format.DateTimeFormatter;
 
 public record ConsultaCriteria(
         String reservaId,
         String checkIn,
         String checOut,
-        BigDecimal precio,
+        Float precio,
         String categoria,
         Integer numeroDeHabitacion,
         String metodoDePago
