@@ -20,7 +20,7 @@ public class RedisConfig
     @Bean
     public RedisConnectionFactory redisConnectionFactory()
     {
-       return new LettuceConnectionFactory();
+       return new LettuceConnectionFactory(System.getenv("REMOTE_DB"),6379);
     }
 
     @Bean

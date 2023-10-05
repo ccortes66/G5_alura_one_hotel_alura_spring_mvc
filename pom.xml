@@ -128,7 +128,6 @@
 			</plugin>
 
 
-
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -147,47 +146,20 @@
 				<artifactId>jte-maven-plugin</artifactId>
 				<version>3.1.0</version>
 				<configuration>
-					<sourceDirectory>src/main/resources/templates</sourceDirectory> <!-- This is the directory where your .jte files are located. -->
-					<targetDirectory>jte-classes</targetDirectory> <!-- This is the directory where compiled templates are located. -->
+					<sourceDirectory>src/main/resources/templates</sourceDirectory>
 					<contentType>Html</contentType>
 				</configuration>
 				<executions>
 					<execution>
-						<phase>process-classes</phase>
+						<phase>generate-sources</phase>
 						<goals>
-							<goal>precompile</goal>
+							<goal>generate</goal>
 						</goals>
-					</execution>
+				   </execution>
 				</executions>
 			</plugin>
 
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.3.1</version>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.outputDirectory}</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}/target/generated-sources/jte</directory>
-									<includes>
-										<include>**/*.class</include>
-									</includes>
-									<filtering>false</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-
+			
 		</plugins>
 	</build>
 

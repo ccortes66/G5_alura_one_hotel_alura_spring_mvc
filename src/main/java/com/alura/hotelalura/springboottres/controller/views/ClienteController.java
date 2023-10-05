@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import com.alura.hotelalura.springboottres.controller.requests.ConsultaCriteriaRequest;
 import com.alura.hotelalura.springboottres.controller.responses.BuscarClienteResponses;
-import com.alura.hotelalura.springboottres.controller.responses.BuscarResponses;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
