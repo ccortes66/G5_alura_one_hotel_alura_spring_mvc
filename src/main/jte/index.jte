@@ -1,7 +1,7 @@
 @import com.alura.hotelalura.springboottres.controller.responses.ListarReservacionResponses
 @import java.text.DecimalFormat
 
-@param ListarReservacionResponses resultadoLista
+@param ListarReservacionResponses resultadoLista 
 
 <!doctype html>
 <html lang="en">
@@ -14,7 +14,7 @@
 
              <div class="col-sm p-3 min-vh-100">
                  
-                  @template.partes.includes.titulos(resultadoLista.username(),
+                  @template.partes.includes.titulos("users",
                                                     "Mis reservaciones",
                                                     "bi-arrow-repeat fs-1")
                   
@@ -39,7 +39,7 @@
                                  <td class="text-capitalize">${String.valueOf(reservaInfo.getCheckOut())}</td>
                                  <td class="text-capitalize">${new DecimalFormat("#,###.00").format(reservaInfo.getPrecioHabitacion())}</td> 
                                  <td class="text-capitalize">${reservaInfo.getCategoria()}</td>
-                                 <td class="text-capitalize">${reservaInfo.getNumeroHabitacion().toString()}</td>
+                                 <td class="text-capitalize">${String.valueOf(reservaInfo.getNumeroHabitacion())}</td>
                              </tr>
                          @endfor
                      @endif

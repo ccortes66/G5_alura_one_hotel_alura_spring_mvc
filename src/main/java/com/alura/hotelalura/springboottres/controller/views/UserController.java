@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -152,10 +153,16 @@ public class UserController
                                                                                      ,clienteResponses.linkRegistro()
                                                                                      ,clienteResponses.currentUri()));
           }
-        userServices.setLoginResponses(clienteResponses);     
-        manager.authenticate(token);
-        session.setAttribute("users",request.getParameter("username"));
-        model.addAttribute("user", session.getAttribute("users"));
+        
+        Authentication authentication = manager.authenticate(token);
+        System.out.println(authentication.getPrincipal());
+        
+        if(authentication.isAuthenticated())
+        {
+          session.setAttribute("users",request.getParameter("username"));
+          model.addAttribute("user",(String) session.getAttribute("users"));
+        }  
+        
         return "redirect:/cliente";
     }
 

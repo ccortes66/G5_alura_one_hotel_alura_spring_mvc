@@ -21,34 +21,37 @@ import com.alura.hotelalura.springboottres.persitence.dto.reserva.ListarReservac
 import com.alura.hotelalura.springboottres.service.ClienteService;
 import com.alura.hotelalura.springboottres.service.HabitacionService;
 import com.alura.hotelalura.springboottres.service.PublicService;
-import com.alura.hotelalura.springboottres.service.UserServices;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 
+@Controller
 @RequestMapping("/cliente")
 @RequiredArgsConstructor
 public class ClienteController 
 {   
     private final PublicService publicService;
     private final ClienteService service;
-    private final UserServices userServices;
     private final HabitacionService habitacionService;
 
     @GetMapping
     public String mainCliente(Model model,HttpServletRequest request,HttpSession session)
     {   
-        String username = (String) session.getAttribute("users");
-        model.addAttribute("resultadoLista", new ListarReservacionResponses(username,
+        try{
+             String username = (String) session.getAttribute("users");
+            model.addAttribute("resultadoLista", new ListarReservacionResponses(username,
                                                                                           habitacionService.listarReservacionCliente(username)));
+            return "index";
+        }catch(Exception ex){ ex.printStackTrace();}
         return "index";
     }
 
     @GetMapping("/listar/reservaciones")
     public String vistaListarConsultas(Model model,HttpSession session)
     {   
+        
         String username = (String) session.getAttribute("users");
         model.addAttribute("resultadoLista", new ListarReservacionResponses(username,
                                                                                           habitacionService.listarReservacionCliente(username)));
