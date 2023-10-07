@@ -1,6 +1,6 @@
 package com.alura.hotelalura.springboottres.persitence.entity;
 
-import java.math.BigDecimal;
+
 import java.time.LocalDate;
 import java.util.UUID;
 

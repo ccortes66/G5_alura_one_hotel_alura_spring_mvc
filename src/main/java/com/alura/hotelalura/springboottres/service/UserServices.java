@@ -78,7 +78,7 @@ public class UserServices implements UserDetailsService
                                                                                                                                                     ,"Usuario o Contraseña invalida"
                                                                                                                                                     ,loginResponses.linkRegistro()
                                                                                                                                                     ,loginResponses.currentUri())));
-        if(users.getLocked() == 0)
+        if(users.getLocked() == 1)
           {throw new LockedException(String.format("%s,%s,%s,%s,%s"
                                                                   ,loginResponses.linkAction()
                                                                   ,loginResponses.img()
