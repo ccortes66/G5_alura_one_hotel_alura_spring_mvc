@@ -1,7 +1,7 @@
 @import com.alura.hotelalura.springboottres.controller.responses.ListarReservacionResponses
 @import java.text.DecimalFormat
 
-@param ListarReservacionResponses resultadoLista 
+@param ListarReservacionResponses resultadoLista = null
 
 <!doctype html>
 <html lang="en">
@@ -14,7 +14,7 @@
 
              <div class="col-sm p-3 min-vh-100">
                  
-                  @template.partes.includes.titulos("users",
+                  @template.partes.includes.titulos(resultadoLista.username(),
                                                     "Mis reservaciones",
                                                     "bi-arrow-repeat fs-1")
                   
