@@ -148,7 +148,7 @@
 				<artifactId>jte-maven-plugin</artifactId>
 				<version>3.1.0</version>
 				<configuration>
-					<sourceDirectory>src/main/resources/templates</sourceDirectory>
+					<sourceDirectory>src/main/jte</sourceDirectory>
 					<contentType>Html</contentType>
 				</configuration>
 				<executions>
