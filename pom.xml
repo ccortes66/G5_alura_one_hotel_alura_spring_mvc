@@ -148,17 +148,16 @@
 				<artifactId>jte-maven-plugin</artifactId>
 				<version>3.1.0</version>
 				<configuration>
-					<sourceDirectory>src/main/jte</sourceDirectory> 
-					<targetDirectory>jte-classes</targetDirectory> 
+					<sourceDirectory>src/main/resources/templates</sourceDirectory>
 					<contentType>Html</contentType>
 				</configuration>
 				<executions>
 					<execution>
-						<phase>process-classes</phase>
+						<phase>generate-sources</phase>
 						<goals>
-							<goal>precompile</goal>
+							<goal>generate</goal>
 						</goals>
-					</execution>
+				   </execution>
 				</executions>
 			</plugin>
 
